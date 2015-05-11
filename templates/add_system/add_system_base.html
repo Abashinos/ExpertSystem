@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="col-md-6 col-sm-6">
+        {% load tags %}
+        <ul class="nav nav-pills">
+            <li class="{% active request 'add_system' %}">
+                <a class="btn-info" href="{% url "add_system" %}">Система</a>
+            </li>
+            <li class="{% active request 'add_attributes' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_attributes" %}">Атрибуты</a>
+            </li>
+            <li class="{% active request 'add_objects' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_objects" %}">Объекты</a>
+            </li>
+            <li class="{% active request 'add_parameters' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_parameters" %}">Параметры</a>
+            </li>
+            <li class="{% active request 'add_questions' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_questions" %}">Вопросы</a>
+            </li>
+
+            <li class="{% active request 'add_answers' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_answers" %}">Ответы</a>
+            </li>
+
+            <li class="{% active request 'add_rules' %}">
+                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_rules" %}">Логика</a>
+            </li>
+        </ul>
+
+        <div class="content">
+            <div class="thumbnail content-thumbnail container-fluid"
+                {% block add_page %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {% load staticfiles %}
+    <link href="{% static "css/fileinput.min.css" %}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{% static "css/system.css" %}" rel="stylesheet" type="text/css" />
+    <script src="{% static "js/fileinput.min.js" %}"></script>
+    <script async src="{% static "js/add_system.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,158 @@
+
+input[file] {
+    width: 210px;
+}
+
+.info-label {
+    padding-top: 10px;
+}
+
+.thumbnail__avatar{
+	width: 200px;
+    border: solid 2px #dddddd;
+    border-radius: 15px;
+}
+.thumbnail__title{
+	text-align: center;
+}
+.thumbnail__text{
+	font-family: Verdana;
+	font-size: 16px;
+}
+.answer{
+	font-family: Verdana;
+}
+.question__submit-button{
+	margin-top: 25px;
+}
+.thumbnail{
+    box-shadow: 5px 5px 10px grey;
+	min-height: 635px;
+	padding-top: 20px;
+	background: #f5f5f5;
+	border-radius: 15px;
+}
+.thumbnail__add{
+	text-align: center;
+	font-size: 200px;
+	color: #2ecc71;
+}
+.thumbnail__add__link{
+	font-size: 55px;
+	position: fixed;
+	right: 20px;
+	bottom: 15px;
+	border-radius: 100%;
+	border: 1px solid;
+	width: 98px;
+	height: 98px;
+	background: #2ecc71;
+	border-color: #2ecc71;
+    box-shadow: 4px 4px 2px grey;
+}
+.thumbnail__add__link:hover{
+	background: #27ae60;
+	border-color: #27ae60;
+}
+.thumbnail__add__icon{
+	width: 100px;
+	display: inline-block;
+	text-align: center;
+	line-height: 92px;
+	color: #fff;
+
+}
+.page-header{
+	margin-top: 20px;
+}
+.attributes{
+	border-right: 1px solid #ddd;
+	padding: 0 20px 0 0;
+}
+.attributes__item{
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 10px;
+	margin: 0 20px 10px;
+}
+.attributes__item__title{
+	margin-bottom: 30px;
+}
+.attributes__item__title-input{
+	display: inline;
+	width: 77%;
+}
+.attributes__title{
+	margin: 0 0 20px;
+}
+.attributes__add-item{
+	/*margin-top: 10px;*/
+}
+.attributes__add-item__wrapper{
+	/*text-align: right;*/
+}
+
+textarea {
+	resize: none;
+}
+
+.rule{
+
+}
+.rule__delete__wrapper {
+	text-align: right;
+}
+.rule__condition__literal-select{
+	display: inline-block;
+	width: auto;
+}
+.rule__condition{
+	margin-bottom: 8px;
+}
+.rule__condition__literal-select_param1{
+	max-width: 50%;
+}
+.rule__condition__literal-select_param2{
+	width: 30%;
+}
+.rule__condition__select-block{
+	display: inline-block;
+}
+.rule__condition__remove-btn{
+	position: absolute;
+	right: 30px;
+}
+
+.rule__result{
+	margin-bottom: 8px;
+}
+.rule__result__select-block{
+	display: inline-block;
+	width: auto;
+}
+.rule__result__remove-btn{
+	position: absolute;
+	right: 30px;
+}
+.rule__result__select{
+	width: auto;
+	display: inline-block;
+}
+.rule__result__input{
+	width: auto;
+	display: inline-block;
+}
+
+.rules__add-buttons{
+	margin: 30px 0 30px 0;
+	text-align: center;
+}
+
+.objects-page__control-buttons-block{
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+}
+.objects-page__control-buttons-row{
+	height: 100px;
+}

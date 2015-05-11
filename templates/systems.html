@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+  {% for system in systems %}
+  {% cycle '<div class="row">' '' '' %}
+  <div id="system{{ system.id }}" class="col-sm-3 col-md-3">
+    <div class="thumbnail">
+      <img src="{% if system.pic_thumbnail %}{{ system.pic_thumbnail.url }}{% else %}{% static "img/no_img.png" %}{% endif %}" class="thumbnail__avatar" alt="...">
+      <div class="caption">
+        <h3 class="thumbnail__title">{{system.name}}</h3>
+        <p class="thumbnail__text">
+            {% if system.about %}
+                {{ system.about }}
+            {% else %}
+                Попробуйте лучшее из всего, что Вы когда-либо видели! <br/>
+              Так, как эта система, никто вам не поможет выбрать!
+            {% endif %}
+            <br/>
+            Автор: <b>{{system.user.username}} {% if system.user.last_name and system.user.first_name %}
+                ({{ system.user.last_name }} {{ system.user.first_name }}){% endif %}</b><br/></p>
+        <p><a href="/reset?system_id={{system.id}}" class="btn btn-success btn-block btn-lg begin-test" role="button">Попробовать</a></p>
+
+          {% if user_id %}
+              {% if system.user_id == user_id and not system.is_deleted %}
+                <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
+                <p><a data-id="{{ system.id }}" class="btn btn-danger btn-block btn-lg delete-system" role="button">Удалить</a></p>
+              {% endif %}
+
+              {% if admin %}
+                <p>Система <b>{% if not system.is_deleted %}не {% endif %}удалена</b></p>
+                <p>Система <b>{% if system.is_public %}публична{% else %}приватна{% endif %}</b></p>
+              {% endif %}
+          {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  {% cycle '' '' '</div>' %}
+  {% endfor %}
+  
+      	<a class="thumbnail__add__link" href="{% url "add_system" %}" style="">
+      		<span class="thumbnail__add__icon glyphicon glyphicon-plus"></span>
+      	</a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/lib/bootstrap-confirmation.js" %}"></script>
+    <script src="{% static "js/index.js" %}"></script>
+{% endblock %}
