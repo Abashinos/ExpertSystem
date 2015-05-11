@@ -149,8 +149,11 @@ def delete_system(request, system_id=None):
             return HttpResponse(json.dumps({'error': 'User doesn\'t exist'}), content_type='application/json')
 
         if request.user.id == user_id:
-            system.is_deleted = True
-            system.save()
+            if not request.user.is_superuser:
+                system.is_deleted = True
+                system.save()
+            else:
+                system.delete()
             return HttpResponse(json.dumps({'OK': 'Deleted'}), content_type='application/json')
         else:
             return HttpResponse(json.dumps({'error': 'You can\'t delete this system'}), content_type='application/json')

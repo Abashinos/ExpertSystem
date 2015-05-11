@@ -127,3 +127,21 @@ class Rule(models.Model):
 
     class Meta:
         db_table = "rule"
+
+
+class TestHistory(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    hash = models.CharField(max_length=100, null=True, blank=True)
+
+    results = models.TextField(default="")
+    started = models.DateTimeField(null=True, blank=True)
+    finished = models.DateTimeField(null=True, blank=True)
+    questions = models.PositiveIntegerField(default=0, null=True, blank=True)
+
+    class Meta:
+        db_table = "test_history"
+
+    def __unicode__(self):
+        return u"History for user " + self.user.username + u" for system " + self.system.name

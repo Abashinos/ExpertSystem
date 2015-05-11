@@ -19,17 +19,27 @@
                 {% if question.type == 0 %}
                 {% for answer in answers %}
                     <div class="answer">
-                        <h3><input id="{{ answer.body }}" type="radio" name="answer" value="{{ answer.id }}"> <label for="{{ answer.body }}"> {{ answer.body }} </label></h3>
+                        <span class="answer-span">
+                              <label class="answer-text" for="{{ answer.body }}">
+                                  <input id="{{ answer.body }}" type="radio" name="answer" value="{{ answer.id }}">{{ answer.body }}
+                              </label>
+                        </span>
                     </div>
 
                 {% endfor %}
                 {% else %}
                     <h3>Введите ответ: <input style="display: inline-block; width: auto" class="form-control" type="text" name="answer"></h3>
                 {% endif %}
-                <button type="submit" class="question__submit-button btn btn-success btn-lg">Далее</button>
-                <a href="/skip/{{ question.id }}" class="question__submit-button btn btn-link btn-lg">Пропустить вопрос</a>
-                <a href="{%  url "main_menu" %}" class="question__submit-button btn btn-link btn-lg">Главное меню</a>
+                <div class="row-fluid">
+                    <button type="submit" class="question__submit-button btn btn-success btn-lg">Далее</button>
+                    <a href="{% url "skip_question" question_id=question.id %}" class="question__submit-button btn btn-info btn-lg">Пропустить вопрос</a>
+                </div>
+                <div class="row-fluid">
+                    <a href="{% url "final" %}" class="question__submit-button btn btn-info btn-lg">Завершить тестирование</a>
+                    <a href="{% url "main_menu" %}" class="question__submit-button btn btn-info btn-lg">Главное меню</a>
+                </div>
             </form>
+
         </div>
     </div>
 

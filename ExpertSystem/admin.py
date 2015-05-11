@@ -35,5 +35,6 @@ admin.site.register(Answer)
 admin.site.register(AttributeValue)
 admin.site.register(SysObject, SysObjectAdmin)
 admin.site.register(Rule, RuleAdmin)
+admin.site.register(TestHistory)
 
 

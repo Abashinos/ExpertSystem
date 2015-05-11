@@ -11,9 +11,9 @@
         <form id="add_answers_form" action="/insert_answers/" method="POST" class="form-horizontal">
             <input name="form_data" type="hidden">
             {% csrf_token %}
-            <div class="row">
+            <div class="row-fluid">
                 <div class="col-md-12 js-attributes__column">
-                    <div class="row  js-attributes attributes">
+                    <div class="row-fluid js-attributes attributes">
                         {% for question in questions %}
                             <div class="question js-attributes__item attributes__item col-md-11">
                                     <input name="id" type="hidden" value="{{ question.id }}">

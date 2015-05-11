@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from ES import settings
 from ES.settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 from ExpertSystem.views_edit import answers, attributes, objects, parameters, questions, rules, system
-from ExpertSystem.views_common import index, auth, testing
+from ExpertSystem.views_common import index, auth_views, testing, profile
 
 admin.autodiscover()
 
@@ -17,19 +17,21 @@ urlpatterns = patterns('',
     # url(r'^$', 'ES.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/?$', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^reset/?$', index.reset, name="reset"),
 
     url(r'^/?$', index.index, name="index"),
     url(r'^index/?$', index.index, name="index"),
     url(r'^main/?$', index.main_menu, name="main_menu"),
+    url(r'^profile/?$', profile.view_profile, name="view_profile"),
 
     url(r'^skip/(?P<question_id>[0-9]+)/?$', testing.skip_question, name="skip_question"),
     url(r'^answer/?$', testing.answer, name="answer"),
+    url(r'^final/?$', testing.final, name="final"),
 
-    url(r'^login/?$', auth.login_view, name="login_view"),
-    url(r'^registration/?$', auth.registration, name="registration"),
-    url(r'^logout/?$', auth.logout_view, name="logout_view"),
+    url(r'^login/?$', auth_views.login_view, name="login"),
+    url(r'^registration/?$', auth_views.registration, name="registration"),
+    url(r'^logout/?$', auth_views.logout_view, name="logout"),
 
     url(r'^add_system/(?P<system_id>[a-zA-Z0-9._-]+)/?$', system.add_system, name="add_system"),
     url(r'^add_system/?$', system.add_system, name="add_system"),

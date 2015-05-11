@@ -1,15 +1,15 @@
 # coding=utf-8
+import hashlib
 from django.shortcuts import render, redirect
-from ExpertSystem.models import System, Parameter, Question, Answer
+from ExpertSystem.models import System, Parameter, Question, Answer, TestHistory
 from ExpertSystem.queries import update_session_attributes
 from ExpertSystem.utils import sessions
 from ExpertSystem.utils.decorators import require_session, require_post_params
 from ExpertSystem.utils.parser import get_parameters
 from ExpertSystem.utils.parser import get_attributes
 
-
 @require_session()
-def next_question(request):
+def next_question(request, final=False):
     session_dict = request.session.get(sessions.SESSION_KEY)
     system_id = session_dict["system_id"]
     selected_params = session_dict["selected_params"]
@@ -18,37 +18,38 @@ def next_question(request):
     system = System.objects.get(id=system_id)
     all_parameters = Parameter.objects.filter(system=system)
 
-    # Берем все параметры
-    for param in all_parameters:
+    if not final:
+        # Берем все параметры
+        for param in all_parameters:
 
-        param_values = selected_params.get(str(param.id), None)
+            param_values = selected_params.get(str(param.id), None)
 
-        # Находим, какие еще не выясняли
-        if not param_values:
+            # Находим, какие еще не выясняли
+            if not param_values:
 
-            questions = Question.objects.filter(parameter=param)
+                questions = Question.objects.filter(parameter=param)
 
-            # Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
-            for question in questions:
-                if question.id not in asked_questions:
-                    table = []
-                    for elem in session_dict["objects"]:
-                        if elem['weight'] > 0.01:
-                            table.append(elem)
+                # Проходим все вопросы у каждого параметра, смотрим какие еще не задавали и спрашиваем
+                for question in questions:
+                    if question.id not in asked_questions:
+                        table = []
+                        for elem in session_dict["objects"]:
+                            if elem['weight'] > 0.01:
+                                table.append(elem)
 
-                    table = sorted(
-                        table,
-                        key=lambda k: float(k['weight']),
-                        reverse=True
-                    )
+                        table = sorted(
+                            table,
+                            key=lambda k: float(k['weight']),
+                            reverse=True
+                        )
 
-                    answers = Answer.objects.filter(question=question)
-                    ctx = {
-                        "question": question,
-                        "answers": answers,
-                        "table": table
-                    }
-                    return render(request, "question.html", ctx)
+                        answers = Answer.objects.filter(question=question)
+                        ctx = {
+                            "question": question,
+                            "answers": answers,
+                            "table": table
+                        }
+                        return render(request, "question.html", ctx)
 
     objects = []
     max_weight = 0.0
@@ -68,7 +69,18 @@ def next_question(request):
         reverse=True
     )
 
+    try:
+        history = session_dict['history']
+        TestHistory.objects.get(hash=hashlib.md5(str(history['user_id'])+history['started']).hexdigest())
+    except TestHistory.DoesNotExist:
+        sessions.update_session_history(request, write_results=True, results=session_dict['objects'], finished=True)
+
     return render(request, "final.html", {"system_id": system.id, "table": session_dict["objects"]})
+
+
+@require_session()
+def final(request):
+    return next_question(request, final=True)
 
 
 @require_session()
@@ -88,6 +100,7 @@ def answer(request):
         answer = Answer.objects.get(id=answer_id)
         if not answer.parameter_value or answer.parameter_value == "":
             return skip_question(request, question_id)
+        sessions.update_session_history(request, inc_questions=True)
         param_values.append(answer.parameter_value)
     else:
         # Здесь answer_id - текст ответа
