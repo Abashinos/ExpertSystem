@@ -31,12 +31,13 @@
                     <h3>Введите ответ: <input style="display: inline-block; width: auto" class="form-control" type="text" name="answer"></h3>
                 {% endif %}
                 <div class="row-fluid">
-                    <button type="submit" class="question__submit-button btn btn-success btn-lg">Далее</button>
-                    <a href="{% url "skip_question" question_id=question.id %}" class="question__submit-button btn btn-info btn-lg">Пропустить вопрос</a>
+                    <button type="submit" class="question__submit-button btn btn-new btn-lg col-md-12">Далее</button>
+
                 </div>
                 <div class="row-fluid">
-                    <a href="{% url "final" %}" class="question__submit-button btn btn-info btn-lg">Завершить тестирование</a>
-                    <a href="{% url "main_menu" %}" class="question__submit-button btn btn-info btn-lg">Главное меню</a>
+                    <a href="{% url "skip_question" question_id=question.id %}" class="question__submit-button btn btn-edit btn-lg col-md-4">Пропустить вопрос</a>
+                    <a href="{% url "final" %}" class="question__submit-button btn btn-edit btn-lg col-md-4">Завершить тестирование</a>
+                    <a href="{% url "main_menu" %}" class="question__submit-button btn btn-edit btn-lg col-md-4">Главное меню</a>
                 </div>
             </form>
 

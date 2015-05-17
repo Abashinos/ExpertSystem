@@ -55,3 +55,38 @@
     border: 2px solid #ddd;
     border-radius: 15px;
 }
+
+.test-results {
+    width: 34%;
+    text-align: center;
+    padding: 0 0 0 5px;
+    border-left: 1px solid #ddd;
+}
+
+.test-results table {
+    width:100%;
+}
+
+.test-results td {
+    width: auto;
+}
+
+.test-header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.result-number {
+    max-width: 15px;
+
+    text-align: right;
+}
+
+.result-text {
+    padding: 0 0 0 5px;
+    text-align: left;
+}
+
+

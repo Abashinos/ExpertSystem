@@ -19,12 +19,12 @@
             <br/>
             Автор: <b>{{system.user.username}} {% if system.user.last_name and system.user.first_name %}
                 ({{ system.user.last_name }} {{ system.user.first_name }}){% endif %}</b><br/></p>
-        <p><a href="/reset?system_id={{system.id}}" class="btn btn-success btn-block btn-lg begin-test" role="button">Попробовать</a></p>
+        <p><a href="/reset?system_id={{system.id}}" class="btn btn-new btn-block btn-lg begin-test" role="button">Попробовать</a></p>
 
           {% if user_id %}
               {% if system.user_id == user_id and not system.is_deleted %}
-                <p><a href="/add_system/{{system.id}}" class="btn btn-success btn-block btn-lg" role="button">Редактировать</a></p>
-                <p><a data-id="{{ system.id }}" class="btn btn-danger btn-block btn-lg delete-system" role="button">Удалить</a></p>
+                <p><a href="/add_system/{{system.id}}" class="btn btn-edit btn-block btn-lg" role="button">Редактировать</a></p>
+                <p><a data-id="{{ system.id }}" class="btn btn-delete btn-block btn-lg delete-system" role="button">Удалить</a></p>
               {% endif %}
 
               {% if admin %}

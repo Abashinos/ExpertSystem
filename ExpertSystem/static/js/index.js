@@ -19,10 +19,10 @@ deleteSystem.on('click', function(){
                 toastr.success('Система удалена', 'Успех!');
             }
             else {
-                toastr.success('Не удалось удалить систему', 'Потрачено!');
+                toastr.error('Не удалось удалить систему', 'Потрачено!');
             }
         })
         .fail(function(data) {
-            toastr.success('Что-то пошло не так', 'Entschuldigung!');
+            toastr.error('Что-то пошло не так', 'Entschuldigung!');
         })
 });

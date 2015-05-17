@@ -7,5 +7,3 @@
 .question-wrapper { padding: 0 5px 0 5px; text-align: center; }
 .question-wrapper h1 { max-width: inherit; word-wrap: break-word; }
 .question-wrapper .answer { border-bottom: 1px solid #ddd; padding: 5px 0 0 20px; text-align: left; }
-
-.question__submit-button { width: 45%; }

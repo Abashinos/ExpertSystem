@@ -56,8 +56,9 @@ urlpatterns = patterns('',
     url(r'^delete_parameter/?$', parameters.delete_parameter, name="delete_parameter"),
     url(r'^delete_answer/?$', answers.delete_answer, name="delete_answer"),
     url(r'^delete_question/?$', questions.delete_question, name="delete_question"),
-    url(r'^delete_system/(?P<system_id>[a-zA-Z0-9._-]+)/?$', system.delete_system, name="delete_system")
+    url(r'^delete_system/(?P<system_id>[a-zA-Z0-9._-]+)/?$', system.delete_system, name="delete_system"),
 
+    url(r'^delete_history/(?P<history_id>[a-zA-Z0-9._-]+)/?$', profile.delete_history, name="delete_history"),
 )
 
 if DEBUG:

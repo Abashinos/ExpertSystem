@@ -6,10 +6,10 @@
 
 {% block scripts %}
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static "css/profile.css" %}">
+    <link rel="stylesheet" href="{% static "css/profile.css" %}" />
 
-    <script src="{% static "js/profile.js" %}"></script>
     <script src="{% static "js/lib/bootstrap-confirmation.js" %}"></script>
+    <script src="{% static "js/profile.js" %}"></script>
     <script src="{% static "js/index.js" %}"></script>
 {% endblock %}
 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="row-fluid info-block">
                     <label for="email-input" class="col-md-4 profile-info-label">
-                        email
+                        Email
                     </label>
                     <div class="input-group col-md-8">
                         <input id="email-input" type="text" class="form-control" name="email" value="{{ user.email }}">
@@ -79,8 +79,8 @@
                             <tr><td>{{ system.question_count }} вопрос{{ system.question_ending }}</td></tr>
                             <tr><td>{{ system.object_count }} объект{{ system.object_ending }}</td></tr>
                             <tr><td>Система <b>{% if system.is_public %}публична{% else %}приватна{% endif %}</b></td></tr>
-                            <tr><td><a class="btn btn-info" href="{% url "add_system" system_id=system.id %}">Редактировать</a>
-                                    <a data-id="{{ system.id }}" class="btn btn-danger delete-system">Удалить</a>
+                            <tr><td><a class="btn btn-edit" href="{% url "add_system" system_id=system.id %}">Редактировать</a>
+                                    <a data-id="{{ system.id }}" class="btn btn-delete delete-system">Удалить</a>
                             </td></tr>
                         </table>
                     </td>
@@ -90,12 +90,53 @@
                 </tr>
                 {% endfor %}
             </table>
-            <a class="btn btn-success" href="{% url "add_new_system" %}">Создать еще одну</a>
+            <a class="btn btn-new" href="{% url "add_new_system" %}">Создать еще одну</a>
             {% else %}
                 <p>Пока ничего нет</p>
-                <a class="btn btn-info" href="{% url "add_new_system" %}">Создать</a>
+                <a class="btn btn-new" href="{% url "add_new_system" %}">Создать</a>
             {% endif %}
         </div>
     </div>
-    <div class="container-fluid col-md-6"></div>
+    <div class="container-fluid col-md-4">
+        <div class="thumbnail content-thumbnail">
+            <p class="header-text">История</p>
+            {% if histories %}
+            <table class="system-table">
+                {% for history in histories %}
+                <tr id="history{{ history.id }}" class="thumbnail system-elem">
+                    <td class="row-number">{{ forloop.counter }}</td>
+                    <td class="system-data">
+                        <table>
+                            <tr class="system-name"><td>{{ history.system_name }}</td></tr>
+                            <tr><td>Отвечено на {{ history.questions_answered }} вопрос{{ history.questions_ending }} из {{ history.total_questions }}</td></tr>
+                            <tr><td>Тестирование начато: {{ history.started }}</td></tr>
+                            <tr><td>Тестирование закончено: {{ history.finished }}</td></tr>
+                            <tr><td><a class="btn btn-edit" href="{% url "reset" %}?system_id={{ history.system_id }}">Пройти заново</a>
+                                    <a data-id="{{ history.id }}" class="btn btn-delete delete-history">Удалить запись</a>
+                            </td></tr>
+                        </table>
+                    </td>
+                    <td class="test-results">
+                        <table>
+                            <tr class="test-header"><td colspan="2">Результаты</td></tr>
+                            {% for result in history.results %}
+                                {% if forloop.counter <= 5 %}
+                                    <tr>
+                                        <td class="result-number">{{ forloop.counter }}.</td>
+                                        <td class="result-text">{{ result.name }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td>Нет данных</td></tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>Пока ничего нет</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

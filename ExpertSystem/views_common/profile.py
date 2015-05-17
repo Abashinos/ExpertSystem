@@ -1,10 +1,11 @@
 # coding=utf-8
 import json
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from ExpertSystem.models import System, Question
+from ExpertSystem.models import System, Question, TestHistory
 from ExpertSystem.utils.log_manager import log
 
 CHANGEABLE_FIELDS = ['last_name', 'first_name', 'email',]
@@ -26,7 +27,7 @@ def word_grammar(numeral):
 
 @login_required
 def view_profile(request):
-    obj_systems = System.objects.filter(user=request.user, is_deleted=False)
+    obj_systems = request.user.system_set.filter(is_deleted=False)
     systems = []
     for obj_system in obj_systems:
         q_count = obj_system.question_set.count()
@@ -42,8 +43,24 @@ def view_profile(request):
             'object_ending': word_grammar(o_count)
         })
 
+    obj_histories = request.user.testhistory_set.all().order_by('-started')
+    histories = []
+    for obj_history in obj_histories:
+        histories.append({
+            'id': obj_history.id,
+            'system_id': obj_history.system.id,
+            'system_name': obj_history.system.name,
+            'started': obj_history.started,
+            'finished': obj_history.finished,
+            'questions_answered': obj_history.questions,
+            'questions_ending': word_grammar(obj_history.questions),
+            'total_questions': obj_history.system.question_set.count(),
+            'results': json.loads(obj_history.results)
+        })
+
     context = {
-        'systems': systems
+        'systems': systems,
+        'histories': histories
     }
     return render(request, "profile/view_profile.html", context)
 
@@ -66,3 +83,19 @@ def update_field(request):
             return HttpResponse(json.dumps({'status': 'error', 'msg': u'Это поле нельзя изменить'}), content_type='application/json')
     else:
         return HttpResponse(json.dumps({'status': 'error', 'msg': 'ajax required'}), content_type='application/json')
+
+
+def delete_history(request, history_id=None):
+    if history_id:
+        try:
+            history = TestHistory.objects.get(id=history_id)
+        except TestHistory.DoesNotExist:
+            return HttpResponse(json.dumps({'error': 'History doesn\'t exist'}), content_type='application/json')
+
+        if request.user.id == history.user_id:
+            history.delete()
+            return HttpResponse(json.dumps({'OK': 'Deleted'}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'error': 'You can\'t delete this history'}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'error': 'No history id'}), content_type='application/json')
