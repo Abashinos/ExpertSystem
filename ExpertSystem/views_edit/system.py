@@ -36,19 +36,8 @@ def add_system(request, **kwargs):
             log.exception(e)
             return redirect("/", {'error': u'Что-то пошло не так...'})
     else:
-        session = request.session.get(sessions.SESSION_ES_CREATE_KEY)
-        if session:
-            # Если внутри редактирования вернулись на страницу создания системы
-            try:
-                system = System.objects.get(id=session["system_id"], user_id=request.user.id, is_deleted=False)
-            except System.DoesNotExist:
-                return redirect("/", {'error': u'Вы не можете редактировать эту систему'})
-            except Exception as e:
-                log.exception(e)
-                return redirect("/", {'error': u'Что-то пошло не так...'})
-            return render(request, "add_system/add_system.html", {"system": system})
-
-        # Иначе все по нулям
+        sessions.clear_session(request)
+        sessions.clear_es_create_session(request)
         return render(request, "add_system/add_system.html")
 
 
@@ -115,6 +104,7 @@ def insert_system(request):
             log.exception(e)
             return error_response()
 
+        response['system_id'] = system.id
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     params = {
@@ -128,6 +118,7 @@ def insert_system(request):
         params.update({"photo": system_pic})
     try:
         system = System.objects.create(**params)
+        response['system_id'] = system.id
     except Exception as e:
         log.exception(e)
         return error_response()

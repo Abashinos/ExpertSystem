@@ -6,8 +6,11 @@
 
 {% block scripts %}
     {% load staticfiles %}
-    <script src="{% static "js/profile.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/profile.css" %}">
+
+    <script src="{% static "js/profile.js" %}"></script>
+    <script src="{% static "js/lib/bootstrap-confirmation.js" %}"></script>
+    <script src="{% static "js/index.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -66,19 +69,28 @@
         <div class="thumbnail content-thumbnail">
             <p class="header-text">Созданные системы</p>
             {% if systems %}
-            <table style="width: 100%">
-                <tr class="system-elem">
-                    <td style="width: auto">1</td>
-                    <td style="width: auto">
+            <table class="system-table">
+                {% for system in systems %}
+                <tr id="system{{ system.id }}" class="thumbnail system-elem">
+                    <td class="row-number">{{ forloop.counter }}</td>
+                    <td class="system-data">
                         <table>
-                            <tr><td>EXEXEE</td></tr>
-                            <tr><td>EXEXEdwdwE</td></tr>
-                            <tr><td>EXEXEqE</td></tr>
-                            <tr><td>EXEXEdE</td></tr>
+                            <tr class="system-name"><td>{{ system.name }}</td></tr>
+                            <tr><td>{{ system.question_count }} вопрос{{ system.question_ending }}</td></tr>
+                            <tr><td>{{ system.object_count }} объект{{ system.object_ending }}</td></tr>
+                            <tr><td>Система <b>{% if system.is_public %}публична{% else %}приватна{% endif %}</b></td></tr>
+                            <tr><td><a class="btn btn-info" href="{% url "add_system" system_id=system.id %}">Редактировать</a>
+                                    <a data-id="{{ system.id }}" class="btn btn-danger delete-system">Удалить</a>
+                            </td></tr>
                         </table>
                     </td>
+                    <td class="system-image">
+                        <img class="system-img" src="{{ system.photo }}">
+                    </td>
                 </tr>
+                {% endfor %}
             </table>
+            <a class="btn btn-success" href="{% url "add_new_system" %}">Создать еще одну</a>
             {% else %}
                 <p>Пока ничего нет</p>
                 <a class="btn btn-info" href="{% url "add_new_system" %}">Создать</a>

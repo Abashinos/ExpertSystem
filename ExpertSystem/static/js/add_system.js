@@ -14,7 +14,7 @@ $(document).ready(function () {
             success: function(data){
                 if (data["code"] == 0) {
                     toastr.success('Система добавлена', 'Успех!');
-                    location.reload();
+                    window.location.replace('/add_system/' + data.system_id.toString());
                 }else{
                     $('button[type=submit]').removeClass('disabled');
                     toastr.error(data["msg"]);

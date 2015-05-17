@@ -4,14 +4,48 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+from ExpertSystem.models import System, Question
 from ExpertSystem.utils.log_manager import log
 
 CHANGEABLE_FIELDS = ['last_name', 'first_name', 'email',]
 
 
+def word_grammar(numeral):
+    rem100 = numeral % 100
+    if 4 < rem100 < 21:
+        result = u'ов'
+    else:
+        rem10 = rem100 % 10
+        if rem10 == 1:
+            result = u''
+        elif rem10 == 2 or rem10 == 3 or rem10 == 4:
+            result = u'а'
+        else:
+            result = u'ов'
+    return result
+
 @login_required
 def view_profile(request):
-    return render(request, "profile/view_profile.html")
+    obj_systems = System.objects.filter(user=request.user, is_deleted=False)
+    systems = []
+    for obj_system in obj_systems:
+        q_count = obj_system.question_set.count()
+        o_count = obj_system.sysobject_set.all().count()
+        systems.append({
+            'id': obj_system.id,
+            'name': obj_system.name,
+            'is_public': obj_system.is_public,
+            'photo': obj_system.photo.url,
+            'question_count': q_count,
+            'object_count': o_count,
+            'question_ending': word_grammar(q_count),
+            'object_ending': word_grammar(o_count)
+        })
+
+    context = {
+        'systems': systems
+    }
+    return render(request, "profile/view_profile.html", context)
 
 @login_required
 @require_http_methods(['POST'])

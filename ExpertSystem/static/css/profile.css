@@ -12,3 +12,46 @@
 }
 
 .info-block {   padding: 10px 0 0 0; }
+
+.system-table {
+    width: 100%;
+    height: auto
+}
+
+.system-elem {
+    min-height: 150px;
+    padding-top: 10px;
+}
+
+.row-number {
+    width: auto;
+    min-width: 30px;
+    border-right: 1px solid #ddd;
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.system-name {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.system-data {
+    width: auto;
+    padding-left: 5px
+}
+
+.system-image {
+    padding: 0 0 0 5px;
+}
+
+.system-img {
+    width: 125px;
+    height: 125px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+}
