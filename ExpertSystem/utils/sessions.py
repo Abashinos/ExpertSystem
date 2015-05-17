@@ -72,15 +72,16 @@ def update_session_history(request, inc_questions=False, finished=False, write_r
     if finished:
         request.session[SESSION_KEY]['history']['finished'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         session_history = request.session[SESSION_KEY]['history']
-        TestHistory.objects.create(
-            user_id=session_history['user_id'],
-            system_id=session_history['system_id'],
-            questions=session_history['questions'],
-            results=json.dumps(session_history['results']),
-            started=session_history['started'],
-            finished=session_history['finished'],
-            hash=session_history['hash']
-        )
+        if results and session_history['questions'] > 0:
+            TestHistory.objects.create(
+                user_id=session_history['user_id'],
+                system_id=session_history['system_id'],
+                questions=session_history['questions'],
+                results=json.dumps(session_history['results']),
+                started=session_history['started'],
+                finished=session_history['finished'],
+                hash=session_history['hash']
+            )
 
 
 def init_es_create_session(request, system_id):

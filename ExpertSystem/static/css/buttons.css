@@ -45,3 +45,19 @@
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.52);
   -webkit-font-smoothing: antialiased;
 }
+
+.btn-add {
+  background-color: hsl(39, 98%, 32%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fca402", endColorstr="#a16901");
+  background-image: -moz-linear-gradient(top, #fca402, #a16901);
+  background-image: -ms-linear-gradient(top, #fca402, #a16901);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fca402), color-stop(100%, #a16901));
+  background-image: -webkit-linear-gradient(top, #fca402, #a16901);
+  background-image: -o-linear-gradient(top, #fca402, #a16901);
+  background-image: linear-gradient(#fca402, #a16901);
+  border-color: #a16901 #a16901 hsl(39, 98%, 27.5%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.29);
+  -webkit-font-smoothing: antialiased;
+}

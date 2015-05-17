@@ -23,7 +23,7 @@
                                     {% for answer in question.answers.all%}
                                         {% include "add_system/answer_element.html" %}
                                     {% endfor %}
-                                    <button type="button" class="col-md-2 add_answer btn btn-warning">
+                                    <button type="button" class="col-md-2 add_answer btn btn-add">
                                     <i class="glyphicon-plus glyphicon"></i></button>
                             </div>
                         {% empty %}
@@ -33,7 +33,7 @@
                     </div>
                     <div class="row objects-page__control-buttons-row">
                         <div class="col-md-2 objects-page__control-buttons-block">
-                            <button type="submit" class="btn btn-success btn-lg">Сабмит!</button>
+                            <button type="submit" class="btn btn-new btn-lg">Сохранить</button>
                         </div>
                     </div>
                 </div>

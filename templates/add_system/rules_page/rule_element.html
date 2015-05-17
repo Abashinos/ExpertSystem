@@ -2,7 +2,7 @@
 
     <input name="type" type="hidden" value="{{ type }}">
     <div class="rule__delete__wrapper">
-        <button type="button" class="btn btn-sm btn-danger rule__delete">
+        <button type="button" class="btn btn-sm btn-delete rule__delete">
             <i class="glyphicon glyphicon-remove"></i>
         </button>
     </div>
@@ -15,7 +15,7 @@
             {% include "add_system/rules_page/condition_element.html" %}
         {% endfor %}
 
-        <button type="button" class="col-md-1 rule__add_condition btn btn-warning">
+        <button type="button" class="col-md-1 rule__add_condition btn btn-add">
             <i class="glyphicon-plus glyphicon"></i>
         </button>
     </div>
@@ -25,7 +25,7 @@
 
         {% include "add_system/rules_page/result_element.html" with rule=rule%}
 
-        <button type="button" class="col-md-1 rule__add_result btn btn-warning" data-type="{{ type }}">
+        <button type="button" class="col-md-1 rule__add_result btn btn-add" data-type="{{ type }}">
             <i class="glyphicon-plus glyphicon"></i>
         </button>
     </div>

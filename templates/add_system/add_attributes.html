@@ -25,7 +25,7 @@
                                     {% for value in attr.values %}
                                         {% include "add_system/attribute_value_element.html" %}
                                     {% endfor %}
-                                    <button type="button" class="col-md-2 js-attributes__item__add-value btn btn-warning">
+                                    <button type="button" class="col-md-2 js-attributes__item__add-value btn btn-add">
                                     <i class="glyphicon-plus glyphicon"></i></button>
                             </div>
                         {% empty %}
@@ -37,8 +37,8 @@
                     </div>
                     <div class="row objects-page__control-buttons-row">
                         <div class="objects-page__control-buttons-block">
-                            <button type="button" class="js-attributes__add-item attributes__add-item btn btn-warning btn-lg"><i class="glyphicon-plus glyphicon"></i></button></button>
-                            <button type="submit" class="btn btn-success btn-lg">Сабмит!</button></button>
+                            <button type="button" class="js-attributes__add-item attributes__add-item btn btn-add btn-lg"><i class="glyphicon-plus glyphicon"></i></button>
+                            <button type="submit" class="btn btn-new btn-lg">Сохранить</button>
                         </div>
                     </div>
                 </div>

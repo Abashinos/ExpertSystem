@@ -29,7 +29,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.inside-system.btn-danger').on('click', function(e){
+    $('.inside-system.btn-delete').on('click', function(e){
         e.preventDefault();
         toastr.error('Сначала создайте систему', 'Ошибка');
     });

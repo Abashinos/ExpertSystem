@@ -8,24 +8,24 @@
                 <a class="btn-info" href="{% if system.id %}{% url "add_system" system_id=system.id %}{% else %}{% url "add_new_system" %}{% endif %}">Система</a>
             </li>
             <li class="{% active request 'add_attributes' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_attributes" %}">Атрибуты</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_attributes" %}">Атрибуты</a>
             </li>
             <li class="{% active request 'add_objects' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_objects" %}">Объекты</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_objects" %}">Объекты</a>
             </li>
             <li class="{% active request 'add_parameters' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_parameters" %}">Параметры</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_parameters" %}">Параметры</a>
             </li>
             <li class="{% active request 'add_questions' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_questions" %}">Вопросы</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_questions" %}">Вопросы</a>
             </li>
 
             <li class="{% active request 'add_answers' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_answers" %}">Ответы</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_answers" %}">Ответы</a>
             </li>
 
             <li class="{% active request 'add_rules' %}">
-                <a class="inside-system {% if not system %}btn-danger{% else %}btn-info{% endif %}" href="{% url "add_rules" %}">Логика</a>
+                <a class="inside-system {% if not system %}btn-delete{% else %}btn-info{% endif %}" href="{% url "add_rules" %}">Логика</a>
             </li>
         </ul>
 

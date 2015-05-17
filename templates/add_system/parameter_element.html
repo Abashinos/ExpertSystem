@@ -4,7 +4,7 @@
         <input name="name" type="text" class="form-control" id="inputEmail3" value="{{ param.name }}" data-id="0">
         <input name="id" type="hidden" class="form-control" value="{% if param and param.id %}{{ param.id }}{% else %}-1{% endif %}">
     </div>
-    <button type="button" class="btn btn-danger delete_attr" data-href="/delete_parameter/" data-id = {{ param.id }}><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-delete delete_attr" data-href="/delete_parameter/" data-id = {{ param.id }}><i class="glyphicon glyphicon-remove"></i></button>
 </div>
 {% if param.values %}
 <div class="form-group">
