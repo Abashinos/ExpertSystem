@@ -2,7 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Ratus Expertus</title>
+    {% block title %}
+        <title>Ratus Expertus</title>
+    {% endblock %}
     {% load staticfiles %}
 
     <link rel="stylesheet" type="text/css" href="{% static "css/lib/bootstrap.min.css" %}">
@@ -33,11 +35,11 @@
 			    </div>
 			  </div>
 			</nav>
-			{%block navbar%}
-			{%endblock navbar%}
+			{% block navbar %}
+			{% endblock %}
 			<div class="col-md-12">
-				{%block content%}
-				{%endblock content%}
+				{% block content%}
+				{% endblock %}
 			</div>
 		</div>
 	</div>

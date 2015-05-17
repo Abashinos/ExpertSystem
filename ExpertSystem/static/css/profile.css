@@ -1,0 +1,14 @@
+
+.header-text {  font-size: 24px;
+                font-family: Helvetica, Arial, sans-serif;
+                text-align: center;
+                text-decoration: underline;
+}
+
+.content-thumbnail { padding: 5px 10px 0 10px; }
+
+.profile-info-label {   text-align: right;
+                        padding: 7px 7px 0 0;
+}
+
+.info-block {   padding: 10px 0 0 0; }

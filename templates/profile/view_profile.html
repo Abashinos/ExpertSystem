@@ -1,7 +1,89 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <title>Ваш профиль</title>
+{% endblock %}
+
 {% block scripts %}
+    {% load staticfiles %}
+    <script src="{% static "js/profile.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/profile.css" %}">
 {% endblock %}
 
 {% block content %}
+    <div class="container-fluid col-md-3">
+        <div class="thumbnail content-thumbnail">
+            <form id="csrf-token-form">
+                {% csrf_token %}
+            </form>
+            <p class="header-text">Основная информация</p>
+            <div class="profile-info">
+                <div class="row-fluid">
+                    <label for="username-input" class="col-md-4 profile-info-label">
+                        Никнейм
+                    </label>
+                    <div class="input-group col-md-8">
+                      <input id="username-input" type="text" class="form-control" disabled="disabled" value="{{ user.username }}">
+                    </div>
+                </div>
+                <div class="row-fluid info-block">
+                    <label for="email-input" class="col-md-4 profile-info-label">
+                        email
+                    </label>
+                    <div class="input-group col-md-8">
+                        <input id="email-input" type="text" class="form-control" name="email" value="{{ user.email }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default field-button" type="button">Сохранить</button>
+                        </span>
+                    </div>
+
+                </div>
+                <div class="row-fluid info-block">
+                    <label for="last_name-input" class="col-md-4 profile-info-label">
+                        Фамилия
+                    </label>
+                    <div class="input-group col-md-8">
+                      <input id="last_name-input" type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default field-button" type="button">Сохранить</button>
+                      </span>
+                    </div>
+
+                    <label for="first_name-input" class="col-md-4 profile-info-label">
+                        Имя
+                    </label>
+                    <div class="input-group col-md-8">
+                      <input id="first_name-input" type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default field-button" type="button">Сохранить</button>
+                      </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid col-md-3">
+        <div class="thumbnail content-thumbnail">
+            <p class="header-text">Созданные системы</p>
+            {% if systems %}
+            <table style="width: 100%">
+                <tr class="system-elem">
+                    <td style="width: auto">1</td>
+                    <td style="width: auto">
+                        <table>
+                            <tr><td>EXEXEE</td></tr>
+                            <tr><td>EXEXEdwdwE</td></tr>
+                            <tr><td>EXEXEqE</td></tr>
+                            <tr><td>EXEXEdE</td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            {% else %}
+                <p>Пока ничего нет</p>
+                <a class="btn btn-info" href="{% url "add_new_system" %}">Создать</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container-fluid col-md-6"></div>
 {% endblock %}
