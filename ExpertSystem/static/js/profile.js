@@ -22,6 +22,30 @@ $('.field-button').on('click', function(e){
         }
     });
 });
+$('.pass-button').on('click', function(e){
+    var input = $('#password-input');
+    var input1 = $('#password1-input');
+    var token = $('#csrf-token-form').find('input[name="csrfmiddlewaretoken"]').val();
+
+    $.ajax({
+        'url': '/profile/update_field',
+        'type': 'POST',
+        'data': {
+            'field': 'password',
+            'value': $(input).val(),
+            'value1': $(input1).val(),
+            'csrfmiddlewaretoken': token
+        },
+        success: function(data) {
+            if (data.status == 'ok') {
+                toastr.success('Ваши данные обновлены', 'Успех')
+            }
+            else {
+                toastr.error(data.msg, 'Ошибка')
+            }
+        }
+    });
+});
 
 
 var deleteHistory = $('.delete-history');

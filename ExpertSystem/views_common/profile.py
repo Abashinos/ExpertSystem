@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from ExpertSystem.models import System, Question, TestHistory
 from ExpertSystem.utils.log_manager import log
 
-CHANGEABLE_FIELDS = ['last_name', 'first_name', 'email',]
+CHANGEABLE_FIELDS = ['last_name', 'first_name', 'email', 'password']
 
 
 def word_grammar(numeral):
@@ -73,7 +73,18 @@ def update_field(request):
 
         if field and field in CHANGEABLE_FIELDS:
             try:
-                setattr(request.user, field, value)
+                if field == 'password':
+                    value1 = request.POST.get('value1')
+                    if not value:
+                        return HttpResponse(json.dumps({'status': 'error', 'msg': u'Пароль не может быть пустым'}), content_type='application/json')
+                    elif len(value) < 5:
+                        return HttpResponse(json.dumps({'status': 'error', 'msg': u'Введите пароль не короче 5 символов'}), content_type='application/json')
+                    elif value != value1:
+                        return HttpResponse(json.dumps({'status': 'error', 'msg': u'Пароли не совпадают'}), content_type='application/json')
+                    else:
+                        request.user.set_password(value)
+                else:
+                    setattr(request.user, field, value)
                 request.user.save()
                 return HttpResponse(json.dumps({'status': 'ok', 'result': getattr(request.user, field, value)}), content_type='application/json')
             except Exception as e:

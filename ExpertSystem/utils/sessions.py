@@ -65,6 +65,8 @@ def clear_session(request):
 
 
 def update_session_history(request, inc_questions=False, finished=False, write_results=False, results=""):
+    if not request.user.is_authenticated():
+        return
     if inc_questions:
         request.session[SESSION_KEY]['history']['questions'] += 1
     if write_results:
