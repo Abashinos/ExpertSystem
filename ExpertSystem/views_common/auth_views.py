@@ -35,26 +35,32 @@ def registration(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        password1 = request.POST.get('password1')
         last_name = request.POST.get('last_name')
         first_name = request.POST.get('first_name')
-        if username and email and password:
+        if username and email and password and password1:
             try:
                 user = User.objects.get(username=username)
                 if user:
                     return HttpResponse(json.dumps({"status": "ERROR", "error": u"Никнейм занят"}), content_type="application/json")
             except User.DoesNotExist:
+                if len(password) < 5:
+                    return HttpResponse(json.dumps({"status": "ERROR", "error": u"Введите пароль не короче 5 символов"}), content_type="application/json")
+                if password != password1:
+                    return HttpResponse(json.dumps({"status": "ERROR", "error": u"Пароли не совпадают"}), content_type="application/json")
+
                 user = User.objects.create(email=email, username=username, last_name=last_name, first_name=first_name)
-                user.set_password(request.POST["password"])
+                user.set_password(request.POST["password1"])
                 user.save()
 
-                user = authenticate(username=username, password=password)
+                user = authenticate(username=username, password=password1)
                 if user:
                     login(request, user)
                     return HttpResponse(json.dumps({"status": "OK"}), content_type="application/json")
                 else:
                     return HttpResponse(json.dumps({"status": "ERROR", "error": u"Ошибочка вышла"}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps({"status": "ERROR", "error": u"Мало данных"}, content_type="application/json"))
+            return HttpResponse(json.dumps({"status": "ERROR", "error": u"Введите все обязательные данные"}), content_type="application/json")
     else:
         return render(request, "auth/registration.html")
 
