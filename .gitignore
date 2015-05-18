@@ -2,5 +2,6 @@
 *.pyc
 /migrations
 ES/media
+ES/static
 ES/settings.py
 ES/log
