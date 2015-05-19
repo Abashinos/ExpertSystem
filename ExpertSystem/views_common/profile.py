@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+import re
 from ExpertSystem.models import System, Question, TestHistory
 from ExpertSystem.utils.log_manager import log
 
@@ -83,6 +84,8 @@ def update_field(request):
                         return HttpResponse(json.dumps({'status': 'error', 'msg': u'Пароли не совпадают'}), content_type='application/json')
                     else:
                         request.user.set_password(value)
+                elif field == 'email' and not re.match(r"[^@]+@[^@]+\.[^@]+", value):
+                    return HttpResponse(json.dumps({'status': 'error', 'msg': u'Введите корректный email'}), content_type='application/json')
                 else:
                     setattr(request.user, field, value)
                 request.user.save()

@@ -76,7 +76,7 @@ def insert_answers(request):
                 if not answer.get('body'):
                     response = {
                         "code": 1,
-                        "msg": u"Заполните названия всех ответов, пожалуйста."
+                        "msg": u"Заполните все ответы, пожалуйста."
                     }
 
                     return HttpResponse(json.dumps(response), content_type="application/json")

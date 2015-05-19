@@ -71,7 +71,7 @@ def insert_parameters(request):
         if not param_name:
             response = {
                 "code": 1,
-                "msg": u"Заполните названия всех атрибутов, пожалуйста"
+                "msg": u"Заполните названия всех параметров, пожалуйста"
             }
 
             return HttpResponse(json.dumps(response), content_type="application/json")
@@ -79,7 +79,7 @@ def insert_parameters(request):
         if param_name in param_names:
             response = {
                 "code": 1,
-                "msg": u"Введите различные названия для всех атрибутов, пожалуйста"
+                "msg": u"Введите различные названия для всех параметров, пожалуйста"
             }
 
             return HttpResponse(json.dumps(response), content_type="application/json")
@@ -119,7 +119,7 @@ def insert_parameters(request):
         else:
             response = {
                 "code": 1,
-                "msg": u"Введите различные названия для всех атрибутов, пожалуйста"
+                "msg": u"Введите различные названия для всех параметров, пожалуйста"
             }
 
             return HttpResponse(json.dumps(response), content_type="application/json")

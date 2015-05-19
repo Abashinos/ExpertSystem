@@ -122,7 +122,7 @@ def insert_questions(request):
             if not questionJSON.get("body"):
                 response = {
                     "code": 1,
-                    "msg": u"Заполните названия всех вопросов, пожалуйста."
+                    "msg": u"Заполните все вопросы, пожалуйста."
                 }
 
                 return HttpResponse(json.dumps(response), content_type="application/json")
