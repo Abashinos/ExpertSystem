@@ -29,6 +29,8 @@ class System(models.Model):
 
     class Meta:
         db_table = "system"
+        verbose_name = u"Система"
+        verbose_name_plural = u"Системы"
 
     def __unicode__(self):
         return self.name + " by " + self.user.username
@@ -40,6 +42,8 @@ class Attribute(models.Model):
 
     class Meta:
         db_table = "attribute"
+        verbose_name = u"Атрибут"
+        verbose_name_plural = u"Атрибуты"
 
     def __unicode__(self):
         return self.name
@@ -51,6 +55,8 @@ class Parameter(models.Model):
 
     class Meta:
         db_table = "parameter"
+        verbose_name = u"Параметр"
+        verbose_name_plural = u"Параметры"
 
     def __unicode__(self):
         return self.name
@@ -71,6 +77,8 @@ class Question(models.Model):
 
     class Meta:
         db_table = "question"
+        verbose_name = u"Вопрос"
+        verbose_name_plural = u"Вопросы"
 
     def __unicode__(self):
         return "Question #" + str(self.id) + " in system: " + self.system.name
@@ -83,6 +91,8 @@ class Answer(models.Model):
 
     class Meta:
         db_table = "answer"
+        verbose_name = u"Ответ"
+        verbose_name_plural = u"Ответы"
 
     def __unicode__(self):
         return "Answer #" + str(self.id) + " to question #" + str(self.question.id)
@@ -95,6 +105,8 @@ class AttributeValue(models.Model):
 
     class Meta:
         db_table = "attribute_value"
+        verbose_name = u"Значение атрибута"
+        verbose_name_plural = u"Значения атрибутов"
 
     def __unicode__(self):
         return str(self.id) + ". " + self.attr.name + " : " + self.value
@@ -108,6 +120,8 @@ class SysObject(models.Model):
 
     class Meta:
         db_table = "sys_object"
+        verbose_name = u"Объект"
+        verbose_name_plural = u"Объекты"
 
     def __unicode__(self):
         return self.name
@@ -127,6 +141,8 @@ class Rule(models.Model):
 
     class Meta:
         db_table = "rule"
+        verbose_name = u"Правило"
+        verbose_name_plural = u"Правила"
 
 
 class TestHistory(models.Model):
@@ -142,6 +158,8 @@ class TestHistory(models.Model):
 
     class Meta:
         db_table = "test_history"
+        verbose_name = u"История"
+        verbose_name_plural = u"Истории"
 
     def __unicode__(self):
         return u"History for user " + self.user.username + u" for system " + self.system.name
