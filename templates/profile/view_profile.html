@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid col-md-3">
+    <div class="container-fluid col-md-4">
         <div class="thumbnail content-thumbnail">
             <p class="header-text">Созданные системы</p>
             {% if systems %}
@@ -92,14 +92,14 @@
                 {% for system in systems %}
                 <tr id="system{{ system.id }}" class="thumbnail system-elem">
                     <td class="row-number">{{ forloop.counter }}</td>
-                    <td class="system-data">
-                        <table>
-                            <tr class="system-name"><td>{{ system.name }}</td></tr>
+                    <td class="system-data" style="width: 80%">
+                        <table class="col-md-12">
+                            <tr class="system-name"><td>{{ system.name|truncatechars:35 }}</td></tr>
                             <tr><td>{{ system.question_count }} вопрос{{ system.question_ending }}</td></tr>
                             <tr><td>{{ system.object_count }} объект{{ system.object_ending }}</td></tr>
                             <tr><td>Система <b>{% if system.is_public %}публична{% else %}приватна{% endif %}</b></td></tr>
-                            <tr><td><a class="btn btn-edit" href="{% url "add_system" system_id=system.id %}">Редактировать</a>
-                                    <a data-id="{{ system.id }}" class="btn btn-delete delete-system">Удалить</a>
+                            <tr><td><a class="btn btn-edit col-md-6" href="{% url "add_system" system_id=system.id %}">Редактировать</a>
+                                    <a data-id="{{ system.id }}" class="btn btn-delete delete-system col-md-6">Удалить</a>
                             </td></tr>
                         </table>
                     </td>
@@ -130,8 +130,8 @@
                             <tr><td>Отвечено на {{ history.questions_answered }} вопрос{{ history.questions_ending }} из {{ history.total_questions }}</td></tr>
                             <tr><td>Тестирование начато: {{ history.started }}</td></tr>
                             <tr><td>Тестирование закончено: {{ history.finished }}</td></tr>
-                            <tr><td><a class="btn btn-edit" href="{% url "reset" %}?system_id={{ history.system_id }}">Пройти заново</a>
-                                    <a data-id="{{ history.id }}" class="btn btn-delete delete-history">Удалить запись</a>
+                            <tr><td><a class="btn btn-edit col-md-6" href="{% url "reset" %}?system_id={{ history.system_id }}">Пройти заново</a>
+                                    <a data-id="{{ history.id }}" class="btn btn-delete delete-history col-md-6">Удалить запись</a>
                             </td></tr>
                         </table>
                     </td>
