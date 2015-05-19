@@ -16,14 +16,14 @@ class System(models.Model):
     def photo_upload(self, *args):
         return os.path.join("system", hashlib.md5(str(self.id)).hexdigest() + ".jpg")
 
-    name = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    about = models.TextField(max_length=1000, blank=True, null=True, default='')
-    date_created = models.DateField(blank=True, null=True, default=timezone.now())
-    is_deleted = models.BooleanField(_(u'Удалена'), blank=True, default=False)
-    is_public = models.BooleanField(_(u'Опубликована'), blank=True, default=True)
-    is_open_for_guests = models.BooleanField(_(u'Открыта для гостей'), blank=True, default=True)
-    photo = models.ImageField(upload_to=photo_upload, default=default_photo(), null=True, blank=True)
+    name = models.CharField(max_length=50, verbose_name=u'Название')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u'Пользователь')
+    about = models.TextField(max_length=1000, blank=True, null=True, default='', verbose_name=u'О системе')
+    date_created = models.DateField(blank=True, null=True, default=timezone.now(), verbose_name=u'Дата создания')
+    is_deleted = models.BooleanField(blank=True, default=False, verbose_name=u'Удалена')
+    is_public = models.BooleanField(blank=True, default=True, verbose_name=u'Публична')
+    is_open_for_guests = models.BooleanField(blank=True, default=True, verbose_name=u'Открыта для гостей')
+    photo = models.ImageField(upload_to=photo_upload, default=default_photo(), null=True, blank=True, verbose_name=u'Картинка')
     pic_thumbnail = ImageSpecField([ResizeToFill(200, 200)], source='photo',
                                    format='JPEG', options={'quality': 90})
 
@@ -33,12 +33,12 @@ class System(models.Model):
         verbose_name_plural = u"Системы"
 
     def __unicode__(self):
-        return self.name + " by " + self.user.username
+        return self.name + u". Автор: " + self.user.username
 
 
 class Attribute(models.Model):
-    name = models.CharField(max_length=50)
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, verbose_name=u'Название')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
 
     class Meta:
         db_table = "attribute"
@@ -50,8 +50,8 @@ class Attribute(models.Model):
 
 
 class Parameter(models.Model):
-    name = models.CharField(max_length=50)
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, verbose_name=u'Название')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
 
     class Meta:
         db_table = "parameter"
@@ -70,10 +70,10 @@ class Question(models.Model):
         (NUMBER, "Напишите число"),
     )
     # Параметр, к которому привязан вопрос
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    body = models.TextField()
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
-    type = models.IntegerField(choices=CHOICES)
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE, verbose_name=u'Параметр')
+    body = models.TextField(verbose_name=u'Текст')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
+    type = models.IntegerField(choices=CHOICES, verbose_name=u'Тип')
 
     class Meta:
         db_table = "question"
@@ -81,13 +81,13 @@ class Question(models.Model):
         verbose_name_plural = u"Вопросы"
 
     def __unicode__(self):
-        return "Question #" + str(self.id) + " in system: " + self.system.name
+        return u"Вопрос №" + unicode(self.id) + u" в системе " + self.system.name
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    body = models.TextField()
-    parameter_value = models.TextField()
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE, verbose_name=u'Вопрос')
+    body = models.TextField(verbose_name=u'Текст')
+    parameter_value = models.TextField(verbose_name=u'Значение параметра')
 
     class Meta:
         db_table = "answer"
@@ -95,13 +95,13 @@ class Answer(models.Model):
         verbose_name_plural = u"Ответы"
 
     def __unicode__(self):
-        return "Answer #" + str(self.id) + " to question #" + str(self.question.id)
+        return u"Ответ №" + unicode(self.id) + u" на вопрос №" + unicode(self.question.id)
 
 
 class AttributeValue(models.Model):
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
-    attr = models.ForeignKey(Attribute, on_delete=models.CASCADE)
-    value = models.CharField(max_length=50)
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
+    attr = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name=u'Атрибут')
+    value = models.CharField(max_length=50, verbose_name=u'Значение')
 
     class Meta:
         db_table = "attribute_value"
@@ -113,10 +113,9 @@ class AttributeValue(models.Model):
 
 
 class SysObject(models.Model):
-    name = models.TextField()
-    #Список атрибутов и их значений у объекта
-    attributes = models.ManyToManyField(AttributeValue, null=True, blank=True, related_name='sys_objects')
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    name = models.TextField(verbose_name=u'Название')
+    attributes = models.ManyToManyField(AttributeValue, null=True, blank=True, related_name='sys_objects', verbose_name=u'Атрибуты')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
 
     class Meta:
         db_table = "sys_object"
@@ -134,10 +133,10 @@ class Rule(models.Model):
         (PARAM_RULE, "Правило для параметра"),
         (ATTR_RULE, "Правило для атрибута"),
     )
-    condition = models.TextField()
-    result = models.TextField()
-    type = models.IntegerField(choices=CHOICES)
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
+    condition = models.TextField(verbose_name=u'Условие')
+    result = models.TextField(verbose_name=u'Следствие')
+    type = models.IntegerField(choices=CHOICES, verbose_name=u'Тип')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
 
     class Meta:
         db_table = "rule"
@@ -147,14 +146,14 @@ class Rule(models.Model):
 
 class TestHistory(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    system = models.ForeignKey(System, on_delete=models.CASCADE)
-    hash = models.CharField(max_length=100, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u'Пользователь')
+    system = models.ForeignKey(System, on_delete=models.CASCADE, verbose_name=u'Система')
+    hash = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Уникальный хэш')
 
-    results = models.TextField(default="")
-    started = models.DateTimeField(null=True, blank=True)
-    finished = models.DateTimeField(null=True, blank=True)
-    questions = models.PositiveIntegerField(default=0, null=True, blank=True)
+    results = models.TextField(default="", verbose_name=u'Результаты')
+    started = models.DateTimeField(null=True, blank=True, verbose_name=u'Начало прохождения')
+    finished = models.DateTimeField(null=True, blank=True, verbose_name=u'Конец прохождения')
+    questions = models.PositiveIntegerField(default=0, null=True, blank=True, verbose_name=u'Количество отвеченных вопросов')
 
     class Meta:
         db_table = "test_history"
@@ -162,4 +161,4 @@ class TestHistory(models.Model):
         verbose_name_plural = u"Истории"
 
     def __unicode__(self):
-        return u"History for user " + self.user.username + u" for system " + self.system.name
+        return u"История прохождения пользователем " + self.user.username + u" тестирования в системе " + self.system.name
