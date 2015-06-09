@@ -1,10 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load i18n %}
 
-</body>
-</html>
+{% block extrahead %}
+    {{ block.super }}
+    {{ media }}
+    <script type="text/javascript" src="{% static "js/lib/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/lib/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/admin/colorPicker.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/lib/Chart.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/admin/statistics.js" %}"></script>
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "css/lib/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/admin/statistics.css" %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; Статистика
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        <div class="module container col-md-12">
+            <div class="statistics">
+                <div class="statistics-data">
+                    {% for item in statistics %}
+                        <div class="chart-item"
+                             data-statistics-title="{{ item.name }}"
+                             data-chart-type="{{ item.type }}">
+
+                            {% load l10n %}
+                            {% localize off %}
+                            {% for data in item.data %}
+                                <div data-point="{{ data.point }}" data-number="{{ data.number }}"></div>
+                            {% endfor %}
+                            {% endlocalize %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="chart-container">{% if not statistics %}Нет данных{% endif %}</div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
