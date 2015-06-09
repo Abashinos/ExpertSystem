@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^/?$', index.index, name="index"),
     url(r'^index/?$', index.index, name="index"),
     url(r'^main/?$', index.main_menu, name="main_menu"),
+    url(r'^faq/?$', index.faq, name="faq"),
     url(r'^profile/?$', profile.view_profile, name="view_profile"),
     url(r'^profile/update_field/?$', profile.update_field, name="update_field"),
 

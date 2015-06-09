@@ -43,3 +43,7 @@ def reset(request):
 def main_menu(request):
     sessions.clear_session(request)
     return redirect('/index/')
+
+
+def faq(request):
+    return render(request, 'faq.html')

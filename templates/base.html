@@ -28,7 +28,8 @@
 			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			      <ul class="nav navbar-nav">
 			        {% if user.is_authenticated %}<li class="{% active request "index" %}"><a href="{% url "reset" %}">Системы</a></li>{% endif %}
-			      </ul>
+			        <li><a href="{% url "faq" %}">Инструкция</a></li>
+                  </ul>
 			      
 			      <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url "view_profile" %}">{{ user.username }}</a></li>

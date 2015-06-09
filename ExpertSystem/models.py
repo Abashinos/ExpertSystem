@@ -162,3 +162,10 @@ class TestHistory(models.Model):
 
     def __unicode__(self):
         return u"История прохождения пользователем " + self.user.username + u" тестирования в системе " + self.system.name
+
+
+class Statistics(TestHistory):
+    class Meta:
+        verbose_name = u'Статистика'
+        verbose_name_plural = verbose_name
+        proxy = True
