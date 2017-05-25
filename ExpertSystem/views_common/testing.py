@@ -51,17 +51,10 @@ def next_question(request, final=False):
                         }
                         return render(request, "question.html", ctx)
 
-    objects = []
-    max_weight = 0.0
-    for obj in session_dict['objects']:
-        obj_weight = float(obj['weight'])
-        if obj_weight > max_weight:
-            max_weight = obj_weight
-        objects.append({'name': obj['name'], 'weight': 100 * obj_weight})
-
-    if max_weight >= 0.01:
-        for obj in objects:
-            obj['weight'] = float("{0:.2f}".format(float(obj['weight'] / max_weight)))
+    sum_weights = sum(map(lambda obj: float(obj['weight']), session_dict['objects']))
+    objects = [{'name': obj['name'], 'weight': round(100.0 * float(obj['weight']) / sum_weights, 2)}
+               for obj in session_dict['objects']
+               if obj['weight'] >= 0.01]
 
     session_dict['objects'] = sorted(
         objects,
